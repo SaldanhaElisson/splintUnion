@@ -6,25 +6,66 @@ def split(string, delimiters):
     while i < len(string):
         match = False
         for delimiter in delimiters:
-            if string[i:i + len(delimiter)] == delimiter:
-                result.append(current)
-                current = ""
-                i += len(delimiter) - 1
+            delim_length = len(delimiter)
+            j = 0
+
+            while j < delim_length and i + j < len(string) and string[i + j] == delimiter[j]:
+                j += 1
+            
+            if j == delim_length:
+                if current or (result and result[-1] != ""):  
+                    result.append(current)
+                result.append("")
+                current = "" 
+                i += delim_length - 1
                 match = True
                 break
+        
         if not match:
             current += string[i]
+        
         i += 1
 
-    result.append(current)
+    if current:
+        result.append(current)
+
     return result
 
 
 def union(stringValue):
-    return [delimiter.strip() for delimiter in stringValue.split("|") if delimiter.strip()]
+    delimiters = []
+    current = ""
+    i = 0
+
+    while i < len(stringValue):
+        if stringValue[i] == "|":
+            if current:
+                delimiters.append(current)
+            current = ""
+        else:
+            current += stringValue[i]
+        i += 1
+    
+    if current:
+        delimiters.append(current)
+
+    clean_delimiters = []
+    for delim in delimiters:
+        start = 0
+        end = len(delim) - 1
+
+        while start < len(delim) and delim[start] == " ":
+            start += 1
+        
+        while end >= 0 and delim[end] == " ":
+            end -= 1
+
+        clean_delimiters.append(delim[start:end + 1])
+
+    return clean_delimiters
 
 
 string = "banana maçã"
 delimiters = union("na | ma")
 print(delimiters)
-print(split(string, delimiters))
+print(split(string, delimiters))  
