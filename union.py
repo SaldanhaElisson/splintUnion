@@ -9,16 +9,28 @@ def split(string, delimiters):
             delim_length = len(delimiter)
             j = 0
 
-            while j < delim_length and i + j < len(string) and string[i + j] == delimiter[j]:
-                j += 1
-            
-            if j == delim_length:
-                if current:
-                    result.append(current)
-                current = ""
-                i += delim_length
-                match = True
-                break
+
+            if delimiter == "\\d":
+                if string[i].isdigit():
+                    if current:
+                        result.append(current)
+                    result.append("")
+                    current = ""
+                    i += 1
+                    match = True
+                    break
+            else:
+                while j < delim_length and i + j < len(string) and string[i + j] == delimiter[j]:
+                    j += 1
+
+                if j == delim_length:
+                    if current:
+                        result.append(current)
+                    result.append("") 
+                    current = ""
+                    i += delim_length
+                    match = True
+                    break
         
         if not match:
             current += string[i]
@@ -63,7 +75,7 @@ def union(stringValue):
     return clean_delimiters
 
 
-string = "banana maçã"
-delimiters = union("na | ma")
+string = "banana123 maçã456"
+delimiters = union("na | ma | \\d")
 print(delimiters)
 print(split(string, delimiters))
