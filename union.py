@@ -14,7 +14,6 @@ def split(string, delimiters):
                 if string[i].isdigit():
                     if current:
                         result.append(current)
-                    result.append("")
                     current = ""
                     i += 1
                     match = True
@@ -26,7 +25,6 @@ def split(string, delimiters):
                 if j == delim_length:
                     if current:
                         result.append(current)
-                    result.append("") 
                     current = ""
                     i += delim_length
                     match = True
