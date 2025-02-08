@@ -13,18 +13,16 @@ def split(string, delimiters):
                 j += 1
             
             if j == delim_length:
-                if current or (result and result[-1] != ""):  
+                if current:
                     result.append(current)
-                result.append("")
-                current = "" 
-                i += delim_length - 1
+                current = ""
+                i += delim_length
                 match = True
                 break
         
         if not match:
             current += string[i]
-        
-        i += 1
+            i += 1
 
     if current:
         result.append(current)
@@ -68,4 +66,4 @@ def union(stringValue):
 string = "banana maçã"
 delimiters = union("na | ma")
 print(delimiters)
-print(split(string, delimiters))  
+print(split(string, delimiters))
